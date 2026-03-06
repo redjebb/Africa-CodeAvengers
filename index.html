@@ -828,19 +828,22 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script>
-/* ====== REPAIRED DATA WITH NEW DISCORD IMAGES ====== */
+
+
+// Local images (relative paths work both in local file preview and when hosted)
 const providedImages = [
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388337637953596/1.jpg?ex=69abdb41&is=69aa89c1&hm=dd6e94911d3388e887cfed83b3bf4eab0b7f6e33c9269ac07ace22ef40bac1e7&=&format=webp&width=1296&height=864",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388337138700368/2.jpg?ex=69abdb41&is=69aa89c1&hm=3706fb9843875c2da4604957e1573901fc4e457758a5a9482b5580c8a666d0cc&=&format=webp&width=1152&height=864",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388335930609716/3.jpg?ex=69abdb40&is=69aa89c0&hm=b84a1f8f8cf3911ca3bb78e33f405f2e7146fb70af786aabbadb285150788b82&=&format=webp&width=1296&height=864",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388334978633750/4.jpg?ex=69abdb40&is=69aa89c0&hm=af39aaf0ece5d371353a6b849befa54321eb978e9ebd8c53077400968f406013&=&format=webp&width=1152&height=864",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388334269927498/5.jpg?ex=69abdb40&is=69aa89c0&hm=2abed2689dd9dfc9e43230dd0c4fd8edf3dea1f8fb41a105aadf040734735f4b&=&format=webp&width=1535&height=863",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388333095256166/6.jpg?ex=69abdb40&is=69aa89c0&hm=efd04e9e6fa9bd028abd8a3ff3549bc21a6767d5756aa008c8bb880a43c9030c&=&format=webp&width=1535&height=864",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388331522654218/7.jpg?ex=69abdb3f&is=69aa89bf&hm=24c746974e8bd81c9c4cc8fe407e41eb86308d173589482658f1620cb6c558d1&=&format=webp&width=1296&height=864",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388330708701296/8.jpg?ex=69abdb3f&is=69aa89bf&hm=1575b60d9d35e19d107205f2f7b95391fa33d5dc1e485d03703c1eddb76855d9&=&format=webp&width=1298&height=864",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388329773502646/9.jpg?ex=69abdb3f&is=69aa89bf&hm=175cc340f6126bddfd53403f006b8d3c883c52b058f6d620f7b220585005ae00&=&format=webp&width=1296&height=864",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388328485715968/10.jpg?ex=69abdb3f&is=69aa89bf&hm=c869a816cf50309d4fa73cd885191dc034e65be44310ec2b8aca341e4a7075bd&=&format=webp&width=1152&height=864"
+    "images/piramidite.jpg",
+    "images/kilimagaro.jpg",
+    "images/safari.jpg",
+    "images/Victoria Falls.jpg",
+    "images/African masks.jpg",
+    "images/animal.jpg",
+    "images/Antonine Baths.jpg",
+    "images/kayro.jpg",
+    "images/lion.jpg",
+    "images/Biete Ghiorgis.jpg"
 ];
+
 
 const wonders = [
     {
