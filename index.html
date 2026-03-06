@@ -556,6 +556,31 @@
             color: #8A7050; text-decoration: none; font-size: 0.95rem;
             transition: color 0.3s; display: flex; align-items: center; gap: 8px;
         }
+.footer-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--primary);
+    color: white !important; 
+    padding: 12px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    margin-top: 10px;
+    border: 1px solid transparent;
+}
+
+.footer-download:hover {
+    background: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(212,132,58,0.3);
+}
+
+.footer-download i {
+    font-size: 1rem;
+}
         .footer-col ul a:hover { color: var(--primary); transform: translateX(3px); }
         .footer-bottom {
             text-align: center; padding-top: 30px;
@@ -704,16 +729,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr><td>1</td><td><span class="flag-cell">🇩🇿 Алжир</span></td><td>Алжир</td><td>2 381 741</td><td>46 млн.</td><td><span class="region-badge region-north">Север</span></td><td>7</td></tr>
-                <tr><td>2</td><td><span class="flag-cell">🇨🇩 ДР Конго</span></td><td>Киншаса</td><td>2 344 858</td><td>102 млн.</td><td><span class="region-badge region-central">Център</span></td><td>5</td></tr>
-                <tr><td>3</td><td><span class="flag-cell">🇸🇩 Судан</span></td><td>Хартум</td><td>1 861 484</td><td>46 млн.</td><td><span class="region-badge region-east">Изток</span></td><td>3</td></tr>
-                <tr><td>4</td><td><span class="flag-cell">🇱🇾 Либия</span></td><td>Триполи</td><td>1 759 540</td><td>7 млн.</td><td><span class="region-badge region-north">Север</span></td><td>5</td></tr>
-                <tr><td>5</td><td><span class="flag-cell">🇨🇲 Камерун</span></td><td>Яунде</td><td>1 284 000</td><td>27 млн.</td><td><span class="region-badge region-central">Център</span></td><td>2</td></tr>
-                <tr><td>6</td><td><span class="flag-cell">🇿🇦 ЮАР</span></td><td>Претория</td><td>1 221 037</td><td>60 млн.</td><td><span class="region-badge region-south">Юг</span></td><td>10</td></tr>
-                <tr><td>7</td><td><span class="flag-cell">🇳🇬 Нигерия</span></td><td>Абуджа</td><td>923 768</td><td>223 млн.</td><td><span class="region-badge region-west">Запад</span></td><td>2</td></tr>
-                <tr><td>8</td><td><span class="flag-cell">🇪🇹 Етиопия</span></td><td>Адис Абеба</td><td>1 104 300</td><td>126 млн.</td><td><span class="region-badge region-east">Изток</span></td><td>9</td></tr>
-                <tr><td>9</td><td><span class="flag-cell">🇲🇦 Мароко</span></td><td>Рабат</td><td>446 550</td><td>37 млн.</td><td><span class="region-badge region-north">Север</span></td><td>9</td></tr>
-                <tr><td>10</td><td><span class="flag-cell">🇰🇪 Кения</span></td><td>Найроби</td><td>580 367</td><td>55 млн.</td><td><span class="region-badge region-east">Изток</span></td><td>7</td></tr>
+                <tr><td>1</td><td><span class="flag-cell"> Алжир</span></td><td>Алжир</td><td>2 381 741</td><td>46 млн.</td><td><span class="region-badge region-north">Север</span></td><td>7</td></tr>
+                <tr><td>2</td><td><span class="flag-cell"> ДР Конго</span></td><td>Киншаса</td><td>2 344 858</td><td>102 млн.</td><td><span class="region-badge region-central">Център</span></td><td>5</td></tr>
+                <tr><td>3</td><td><span class="flag-cell"> Судан</span></td><td>Хартум</td><td>1 861 484</td><td>46 млн.</td><td><span class="region-badge region-east">Изток</span></td><td>3</td></tr>
+                <tr><td>4</td><td><span class="flag-cell"> Либия</span></td><td>Триполи</td><td>1 759 540</td><td>7 млн.</td><td><span class="region-badge region-north">Север</span></td><td>5</td></tr>
+                <tr><td>5</td><td><span class="flag-cell"> Камерун</span></td><td>Яунде</td><td>1 284 000</td><td>27 млн.</td><td><span class="region-badge region-central">Център</span></td><td>2</td></tr>
+                <tr><td>6</td><td><span class="flag-cell"> ЮАР</span></td><td>Претория</td><td>1 221 037</td><td>60 млн.</td><td><span class="region-badge region-south">Юг</span></td><td>10</td></tr>
+                <tr><td>7</td><td><span class="flag-cell"> Нигерия</span></td><td>Абуджа</td><td>923 768</td><td>223 млн.</td><td><span class="region-badge region-west">Запад</span></td><td>2</td></tr>
+                <tr><td>8</td><td><span class="flag-cell"> Етиопия</span></td><td>Адис Абеба</td><td>1 104 300</td><td>126 млн.</td><td><span class="region-badge region-east">Изток</span></td><td>9</td></tr>
+                <tr><td>9</td><td><span class="flag-cell"> Мароко</span></td><td>Рабат</td><td>446 550</td><td>37 млн.</td><td><span class="region-badge region-north">Север</span></td><td>9</td></tr>
+                <tr><td>10</td><td><span class="flag-cell"> Кения</span></td><td>Найроби</td><td>580 367</td><td>55 млн.</td><td><span class="region-badge region-east">Изток</span></td><td>7</td></tr>
             </tbody>
         </table>
     </div>
@@ -723,7 +748,7 @@
     <div class="section-header reveal">
         <div class="section-eyebrow">Фотогалерия</div>
         <h2>Красотата на Африка</h2>
-        <p>Избрани кадри от дивата природа и историческите монументи. Кликнете за пълен размер.</p>
+        <p>Избрани кадри от дивата природа и историческите монументи.</p>
         <div class="section-divider"></div>
     </div>
     <div class="gallery-grid" id="gallery-grid"></div>
@@ -736,9 +761,29 @@
         <p>Потопете се в магията на африканската природа с този зашеметяващ документален филм.</p>
         <div class="section-divider"></div>
     </div>
-    <div class="video-container reveal">
-        <iframe src="https://www.youtube.com/embed/u91U8oPJzL8?si=1HMRfWmg2YybkoSN" title="Africa Documentary" allowfullscreen></iframe>
+   <div class="video-container" style="position:relative;width:100%;padding-bottom:56.25%;">
+  
+  <a href="https://www.youtube.com/watch?v=u91U8oPJzL8" target="_blank"
+     style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;">
+     
+    <img src="https://img.youtube.com/vi/u91U8oPJzL8/maxresdefault.jpg"
+         alt="Watch video"
+         style="width:100%;height:100%;object-fit:cover;">
+
+    <div style="
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+        font-size:80px;
+        color:white;
+        text-shadow:0 0 20px black;">
+        ▶
     </div>
+
+  </a>
+
+</div>
 </section>
 
 <section id="quiz-section">
@@ -785,9 +830,9 @@
     <div class="footer-top">
         <div class="footer-brand">
             <span class="logo">AFRICA<span>.</span></span>
-            <p>Проект, създаден специално за второ ниво на националното състезание по информационни технологии <strong>IT Знайко 2026</strong>. Представяме богатството на африканския континент.</p>
+            <p>Сайта е направен за ВТОРИ КРЪГ на национално състезание по информационни технологии и програмиране IT Знайко 2026</p>
             <br>
-            <p style="font-size:0.85rem; color:#A89070; font-weight:600;">© 2026 CodeAvengers</p>
+            <p style="font-size:0.85rem; color:#A89070; font-weight:600;">© 2026 CodeAvengers Team - ИТ Знайко</p>
         </div>
         <div class="footer-col">
             <h4>Навигация</h4>
@@ -804,20 +849,25 @@
             <ul>
                 <li><a href="https://whc.unesco.org" target="_blank"><i class="fas fa-external-link-alt" style="font-size:0.7rem"></i> UNESCO Heritage</a></li>
                 <li><a href="https://www.nationalgeographic.com" target="_blank"><i class="fas fa-external-link-alt" style="font-size:0.7rem"></i> Nat Geo Africa</a></li>
-                <li><a href="https://au.int" target="_blank"><i class="fas fa-external-link-alt" style="font-size:0.7rem"></i> African Union</a></li>
             </ul>
         </div>
+
+        <div class="footer-col">
+    <h4>Документи</h4>
+    <a class="footer-download" href="Ekip_CodeAvengers_Sofia9.docx" download>
+        <i class="fas fa-file-word"></i>
+        Изтегли визитка
+    </a>
+</div>
+
         <div class="footer-col">
             <h4>Контакти</h4>
             <ul>
-                <li><a href="#"><i class="fas fa-map-marker-alt" style="font-size:0.8rem"></i> България, IT Знайко</a></li>
-                <li><a href="mailto:codeavengers.team@gmail.com"><i class="fas fa-envelope" style="font-size:0.8rem"></i> team@codeavengers.bg</a></li>
-                <li><a href="#"><i class="fas fa-code" style="font-size:0.8rem"></i> Web Platform: Daskalo.com</a></li>
+                <li><i class="fas fa-map-marker-alt" style="font-size:0.8rem"></i> гр.София, България</li>
+                <li><i class="fas fa-envelope" style="font-size:0.8rem"></i> codeavengers.team@gmail.com</li>
+                <li><i class="fa-solid fa-school" style="font-size:0.8rem"></i> СофтУни БУДИТЕЛ - гимназия за дигитални умения</li>
             </ul>
         </div>
-    </div>
-    <div class="footer-bottom">
-        Разработено с изключително внимание към детайла и UI/UX дизайна.
     </div>
 </footer>
 
