@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>АФРИКА | Continent of Wonders</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
     <style>
         /* ====== ROOT VARIABLES ====== */
         :root {
@@ -21,6 +25,7 @@
             --gold: #E8B84B;
             --shadow: 0 12px 40px rgba(90,50,10,0.13);
             --border: rgba(212,132,58,0.18);
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         body.dark-mode {
             --bg: #0F0A04;
@@ -28,7 +33,7 @@
             --text: #F0E6D3;
             --text-light: #A89070;
             --nav-bg: rgba(15,10,4,0.97);
-            --shadow: 0 12px 40px rgba(0,0,0,0.5);
+            --shadow: 0 12px 40px rgba(0,0,0,0.6);
             --border: rgba(212,132,58,0.2);
         }
 
@@ -40,7 +45,7 @@
             background: var(--bg);
             color: var(--text);
             overflow-x: hidden;
-            transition: background 0.4s, color 0.4s;
+            transition: var(--transition-smooth);
         }
 
         /* ====== GRAIN OVERLAY ====== */
@@ -63,12 +68,13 @@
             height: 70px;
             display: flex; align-items: center; justify-content: space-between;
             border-bottom: 1px solid var(--border);
-            transition: background 0.4s;
+            transition: var(--transition-smooth);
         }
         .logo {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.7rem; font-weight: 700;
             letter-spacing: 2px; color: var(--text);
+            text-decoration: none;
         }
         .logo span { color: var(--primary); }
         .nav-links { list-style: none; display: flex; gap: 36px; }
@@ -82,7 +88,7 @@
         .nav-links a::after {
             content: ''; position: absolute; bottom: -4px; left: 0;
             width: 0; height: 2px; background: var(--primary);
-            transition: width 0.3s;
+            transition: width 0.3s ease-in-out;
         }
         .nav-links a:hover { color: var(--primary); }
         .nav-links a:hover::after { width: 100%; }
@@ -91,9 +97,9 @@
             background: none; border: 1.5px solid var(--border);
             color: var(--text); padding: 6px 14px;
             border-radius: 30px; cursor: pointer; font-size: 1rem;
-            transition: 0.3s;
+            transition: var(--transition-smooth);
         }
-        #theme-toggle:hover { border-color: var(--primary); }
+        #theme-toggle:hover { border-color: var(--primary); transform: scale(1.05); }
 
         /* ====== HERO ====== */
         #hero {
@@ -105,14 +111,15 @@
         }
         .hero-bg {
             position: absolute; inset: 0;
-            background: url('https://media.discordapp.net/attachments/1342756068018753589/1479388337637953596/1.jpg?ex=69abdb41&is=69aa89c1&hm=dd6e94911d3388e887cfed83b3bf4eab0b7f6e33c9269ac07ace22ef40bac1e7&=&format=webp&width=1896&height=1265') center/cover no-repeat;
+            /* Using Image 1 for Hero */
+            background: url('https://media.discordapp.net/attachments/1342756068018753589/1479388337637953596/1.jpg?ex=69abdb41&is=69aa89c1&hm=dd6e94911d3388e887cfed83b3bf4eab0b7f6e33c9269ac07ace22ef40bac1e7&=&format=webp&width=1296&height=864') center/cover no-repeat;
             transform: scale(1.05);
-            transition: transform 8s ease;
+            transition: transform 10s ease-out;
         }
         #hero:hover .hero-bg { transform: scale(1); }
         .hero-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(160deg, rgba(10,5,0,0.6) 0%, rgba(180,80,20,0.35) 60%, rgba(0,0,0,0.7) 100%);
+            background: linear-gradient(160deg, rgba(10,5,0,0.7) 0%, rgba(180,80,20,0.4) 60%, rgba(0,0,0,0.8) 100%);
         }
         .hero-content {
             position: relative; z-index: 2;
@@ -129,14 +136,15 @@
         }
         .hero-content h1 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(3rem, 7vw, 6rem);
+            font-size: clamp(3rem, 7vw, 6.5rem);
             font-weight: 700; line-height: 1.05;
             margin-bottom: 20px;
             animation: fadeUp 0.8s 0.4s both;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .hero-content h1 em { font-style: italic; color: var(--gold); }
         .hero-content p {
-            font-size: 1.1rem; color: rgba(255,255,255,0.82);
+            font-size: 1.15rem; color: rgba(255,255,255,0.9);
             line-height: 1.7; margin-bottom: 40px;
             animation: fadeUp 0.8s 0.6s both;
         }
@@ -146,17 +154,17 @@
             padding: 14px 36px; border-radius: 50px;
             text-decoration: none; font-weight: 700;
             font-size: 0.9rem; letter-spacing: 0.5px;
-            transition: 0.3s; display: inline-block;
+            transition: var(--transition-smooth); display: inline-block;
         }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,132,58,0.4); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(212,132,58,0.5); }
         .btn-secondary {
             border: 2px solid rgba(255,255,255,0.7); color: white;
             padding: 14px 36px; border-radius: 50px;
             text-decoration: none; font-weight: 700;
             font-size: 0.9rem; letter-spacing: 0.5px;
-            transition: 0.3s; display: inline-block;
+            transition: var(--transition-smooth); display: inline-block;
         }
-        .btn-secondary:hover { background: white; color: #1C1008; }
+        .btn-secondary:hover { background: white; color: #1C1008; transform: translateY(-3px); }
         .hero-scroll {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
             display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -165,7 +173,7 @@
         }
         .hero-scroll .arrow {
             width: 1px; height: 50px; background: rgba(255,255,255,0.4);
-            animation: scrollLine 2s infinite;
+            animation: scrollLine 2s infinite cubic-bezier(0.65, 0, 0.35, 1);
         }
 
         /* ====== STATS STRIP ====== */
@@ -173,82 +181,88 @@
             background: var(--primary);
             display: flex; justify-content: center; gap: 0;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
         }
         .stat-item {
-            text-align: center; padding: 30px 50px;
-            border-right: 1px solid rgba(255,255,255,0.2);
+            text-align: center; padding: 35px 50px;
+            border-right: 1px solid rgba(255,255,255,0.15);
             color: white; flex: 1; min-width: 180px;
         }
         .stat-item:last-child { border-right: none; }
-        .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 700; line-height: 1; }
-        .stat-label { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; margin-top: 6px; }
+        .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; line-height: 1; }
+        .stat-label { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.9; margin-top: 8px; font-weight: 600; }
 
         /* ====== SECTION HEADERS ====== */
         .section-header { text-align: center; margin-bottom: 70px; }
         .section-eyebrow {
-            display: inline-block; font-size: 0.7rem;
-            letter-spacing: 5px; text-transform: uppercase;
+            display: inline-block; font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 4px; text-transform: uppercase;
             color: var(--primary); margin-bottom: 16px;
         }
         .section-header h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
             font-weight: 700; line-height: 1.2;
+            color: var(--text);
         }
         .section-header p {
-            color: var(--text-light); margin-top: 12px;
-            font-size: 1rem; max-width: 560px; margin-left: auto; margin-right: auto;
+            color: var(--text-light); margin-top: 15px;
+            font-size: 1.05rem; max-width: 600px; margin-left: auto; margin-right: auto;
         }
         .section-divider {
-            width: 60px; height: 3px;
+            width: 70px; height: 3px;
             background: var(--primary);
-            margin: 20px auto 0;
+            margin: 25px auto 0;
+            border-radius: 2px;
         }
 
         /* ====== WONDERS GRID ====== */
         #wonders-section { padding: 100px 5%; }
         .wonders-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 28px; max-width: 1200px; margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 30px; max-width: 1280px; margin: 0 auto;
         }
         .wonder-card {
             background: var(--card-bg);
             border-radius: 16px; overflow: hidden;
             box-shadow: var(--shadow);
             cursor: pointer;
-            transition: transform 0.35s, box-shadow 0.35s;
+            transition: var(--transition-smooth);
             border: 1px solid var(--border);
             position: relative;
+            display: flex; flex-direction: column;
         }
-        .wonder-card:hover { transform: translateY(-10px); box-shadow: 0 25px 60px rgba(90,50,10,0.2); }
-        .card-img-wrap { position: relative; height: 230px; overflow: hidden; }
-        .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
-        .wonder-card:hover .card-img-wrap img { transform: scale(1.08); }
+        .wonder-card:hover { transform: translateY(-12px); box-shadow: 0 25px 60px rgba(90,50,10,0.25); }
+        .card-img-wrap { position: relative; height: 250px; overflow: hidden; }
+        .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
+        .wonder-card:hover .card-img-wrap img { transform: scale(1.1); }
         .card-badge {
-            position: absolute; top: 14px; left: 14px;
+            position: absolute; top: 15px; left: 15px;
             background: var(--primary); color: white;
-            font-size: 0.65rem; letter-spacing: 2px;
-            text-transform: uppercase; padding: 5px 12px;
-            border-radius: 30px; font-weight: 600;
+            font-size: 0.7rem; letter-spacing: 1.5px;
+            text-transform: uppercase; padding: 6px 14px;
+            border-radius: 30px; font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         .card-badge.nature { background: var(--accent); }
-        .card-body { padding: 24px; }
+        .card-body { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;}
         .card-body h3 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem; font-weight: 700;
-            margin-bottom: 10px; color: var(--text);
+            font-size: 1.6rem; font-weight: 700;
+            margin-bottom: 12px; color: var(--text);
         }
-        .card-body p { color: var(--text-light); font-size: 0.9rem; line-height: 1.6; }
+        .card-body p { color: var(--text-light); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
         .card-arrow {
-            position: absolute; bottom: 20px; right: 20px;
-            width: 36px; height: 36px; border-radius: 50%;
-            background: var(--primary); color: white;
+            align-self: flex-start;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--bg); color: var(--primary);
             display: flex; align-items: center; justify-content: center;
-            font-size: 0.9rem; opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
+            font-size: 1rem; border: 1px solid var(--border);
+            transition: var(--transition-smooth);
         }
-        .wonder-card:hover .card-arrow { opacity: 1; transform: translateX(4px); }
+        .wonder-card:hover .card-arrow { background: var(--primary); color: white; transform: translateX(5px); }
 
         /* ====== INTERACTIVE MAP SECTION ====== */
         #map-section {
@@ -258,58 +272,66 @@
             border-bottom: 1px solid var(--border);
         }
         .map-container {
-            max-width: 1100px; margin: 0 auto;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+            max-width: 1280px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: center;
         }
-        .map-svg-wrap { position: relative; }
-        .africa-map {
-            width: 100%; max-width: 460px; margin: 0 auto; display: block;
-            filter: drop-shadow(0 20px 40px rgba(90,50,10,0.2));
+        #interactive-map {
+            width: 100%; height: 550px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border);
+            z-index: 1; /* Keep leaflet below modals */
         }
-        .map-info { }
+        /* Style leaflet popups */
+        .leaflet-popup-content-wrapper { background: var(--card-bg); color: var(--text); border-radius: 12px; }
+        .leaflet-popup-tip { background: var(--card-bg); }
+        .leaflet-popup-content h3 { font-family: 'Cormorant Garamond', serif; color: var(--primary); font-size: 1.3rem; margin-bottom: 5px; }
+        .leaflet-popup-content p { font-family: 'Outfit', sans-serif; font-size: 0.9rem; color: var(--text-light); margin: 0; }
+        
         .map-info h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.8rem; font-weight: 700;
-            margin-bottom: 20px; line-height: 1.2;
+            font-size: clamp(2.5rem, 3vw, 3.2rem); font-weight: 700;
+            margin-bottom: 20px; line-height: 1.2; color: var(--text);
         }
         .map-info h2 span { color: var(--primary); }
-        .map-info p { color: var(--text-light); line-height: 1.8; margin-bottom: 16px; }
-        .fact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 30px; }
+        .map-info p { color: var(--text-light); line-height: 1.8; margin-bottom: 16px; font-size: 1.05rem; }
+        .fact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 35px; }
         .fact-box {
-            background: var(--bg); border-radius: 12px;
-            padding: 16px 18px; border: 1px solid var(--border);
+            background: var(--bg); border-radius: 16px;
+            padding: 20px; border: 1px solid var(--border);
+            transition: transform 0.3s;
         }
+        .fact-box:hover { transform: translateY(-5px); }
         .fact-box .fact-val {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem; color: var(--primary); font-weight: 700;
+            font-size: 2rem; color: var(--primary); font-weight: 700; line-height: 1;
         }
-        .fact-box .fact-key { font-size: 0.75rem; color: var(--text-light); margin-top: 2px; }
+        .fact-box .fact-key { font-size: 0.8rem; font-weight: 600; color: var(--text-light); margin-top: 8px; text-transform: uppercase; letter-spacing: 1px;}
 
         /* ====== TABLE SECTION ====== */
         #table-section { padding: 100px 5%; }
-        .table-wrap { max-width: 1000px; margin: 0 auto; overflow-x: auto; }
+        .table-wrap { max-width: 1100px; margin: 0 auto; overflow-x: auto; border-radius: 16px; box-shadow: var(--shadow); }
         table {
             width: 100%; border-collapse: collapse;
             background: var(--card-bg);
-            border-radius: 12px; overflow: hidden;
-            box-shadow: var(--shadow);
+            text-align: left;
         }
         thead { background: var(--primary); color: white; }
         thead th {
-            padding: 18px 20px; text-align: left;
-            font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
-            font-weight: 600;
+            padding: 20px 25px;
+            font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase;
+            font-weight: 700;
         }
         tbody tr { border-bottom: 1px solid var(--border); transition: background 0.2s; }
-        tbody tr:hover { background: rgba(212,132,58,0.06); }
+        tbody tr:hover { background: rgba(212,132,58,0.08); }
         tbody tr:last-child { border-bottom: none; }
-        tbody td { padding: 15px 20px; color: var(--text); font-size: 0.9rem; }
-        .flag-cell { display: flex; align-items: center; gap: 10px; }
+        tbody td { padding: 18px 25px; color: var(--text); font-size: 0.95rem; font-weight: 500; }
+        .flag-cell { display: flex; align-items: center; gap: 12px; font-weight: 600; }
         .region-badge {
-            display: inline-block; padding: 3px 10px;
-            border-radius: 20px; font-size: 0.72rem; font-weight: 600;
+            display: inline-block; padding: 5px 12px;
+            border-radius: 30px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
         }
-        .region-north { background: rgba(232,184,75,0.18); color: #A87C10; }
+        .region-north { background: rgba(232,184,75,0.2); color: #B08210; }
         .region-west { background: rgba(46,125,91,0.15); color: #1F7050; }
         .region-east { background: rgba(201,57,42,0.15); color: #A02515; }
         .region-south { background: rgba(212,132,58,0.15); color: var(--primary-dark); }
@@ -318,31 +340,35 @@
         /* ====== GALLERY SECTION ====== */
         #gallery-section { padding: 100px 5%; background: #0F0A04; }
         #gallery-section .section-header h2 { color: white; }
-        #gallery-section .section-header p { color: rgba(255,255,255,0.5); }
+        #gallery-section .section-header p { color: rgba(255,255,255,0.6); }
         #gallery-section .section-eyebrow { color: var(--gold); }
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 200px);
-            gap: 10px; max-width: 1200px; margin: 0 auto;
+            grid-auto-rows: 250px;
+            gap: 15px; max-width: 1280px; margin: 0 auto;
         }
         .g-item {
             overflow: hidden; cursor: pointer; position: relative;
-            border-radius: 8px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .g-item:nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 3; }
-        .g-item:nth-child(5) { grid-column: 3 / 5; grid-row: 2 / 4; }
-        .g-item:nth-child(8) { grid-column: 1 / 2; grid-row: 3 / 4; }
+        /* Dynamic grid spans */
+        .g-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+        .g-item:nth-child(4) { grid-column: span 2; }
+        .g-item:nth-child(8) { grid-row: span 2; }
+        
         .g-item img {
             width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.5s;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        .g-item:hover img { transform: scale(1.08); }
+        .g-item:hover img { transform: scale(1.1); filter: brightness(0.8); }
         .g-item::after {
-            content: '+'; position: absolute; inset: 0;
-            background: rgba(212,132,58,0.5); color: white;
+            content: '\f00e'; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            position: absolute; inset: 0;
+            background: rgba(212,132,58,0.6); color: white;
             display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; opacity: 0; transition: opacity 0.3s;
+            font-size: 2.5rem; opacity: 0; transition: opacity 0.3s;
         }
         .g-item:hover::after { opacity: 1; }
 
@@ -353,10 +379,11 @@
             border-top: 1px solid var(--border);
         }
         .video-container {
-            max-width: 900px; margin: 0 auto;
-            border-radius: 16px; overflow: hidden;
+            max-width: 1000px; margin: 0 auto;
+            border-radius: 20px; overflow: hidden;
             box-shadow: var(--shadow);
             position: relative; padding-bottom: 56.25%; height: 0;
+            border: 5px solid var(--bg);
         }
         .video-container iframe {
             position: absolute; top: 0; left: 0;
@@ -365,227 +392,213 @@
 
         /* ====== QUIZ SECTION ====== */
         #quiz-section {
-            padding: 100px 5%;
+            padding: 120px 5%;
             background: linear-gradient(135deg, #0F0A04 0%, #1C0E05 50%, #2A1A08 100%);
             position: relative; overflow: hidden;
         }
         #quiz-section::before {
             content: 'AFRICA';
-            position: absolute; right: -60px; top: 50%;
+            position: absolute; right: -5vw; top: 50%;
             transform: translateY(-50%) rotate(90deg);
             font-family: 'Cormorant Garamond', serif;
-            font-size: 12rem; font-weight: 700;
-            color: rgba(255,255,255,0.03); white-space: nowrap;
+            font-size: 15vw; font-weight: 700;
+            color: rgba(255,255,255,0.02); white-space: nowrap;
             pointer-events: none;
         }
         #quiz-section .section-header h2 { color: white; }
         #quiz-section .section-eyebrow { color: var(--gold); }
-        .quiz-wrapper { max-width: 620px; margin: 0 auto; position: relative; z-index: 2; }
+        .quiz-wrapper { max-width: 700px; margin: 0 auto; position: relative; z-index: 2; }
         #quiz-card {
-            background: rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(20px);
-            padding: 44px; border-radius: 20px;
+            padding: 50px; border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
         .quiz-head {
-            display: flex; justify-content: space-between; margin-bottom: 28px;
-            font-size: 0.8rem; letter-spacing: 1.5px; text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
+            display: flex; justify-content: space-between; margin-bottom: 30px;
+            font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase;
+            color: rgba(255,255,255,0.6); font-weight: 600;
         }
-        #score-live { color: var(--gold); font-weight: 700; }
+        #score-live { color: var(--gold); font-weight: 700; font-size: 1rem; }
         #question {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem; color: white; line-height: 1.4; margin-bottom: 28px;
+            font-size: 2rem; color: white; line-height: 1.3; margin-bottom: 30px;
         }
         .quiz-progress {
-            height: 3px; background: rgba(255,255,255,0.1);
-            border-radius: 2px; margin-bottom: 28px; overflow: hidden;
+            height: 4px; background: rgba(255,255,255,0.1);
+            border-radius: 4px; margin-bottom: 35px; overflow: hidden;
         }
         .quiz-progress-bar {
             height: 100%; background: var(--gold);
-            border-radius: 2px; transition: width 0.5s;
+            border-radius: 4px; transition: width 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .btn-grid { display: grid; gap: 10px; }
+        .btn-grid { display: grid; gap: 12px; }
         .btn-answer {
-            padding: 14px 20px; border: 1.5px solid rgba(255,255,255,0.15);
-            background: transparent; border-radius: 10px;
-            cursor: pointer; width: 100%; color: rgba(255,255,255,0.85);
-            font-family: 'Outfit', sans-serif; font-size: 0.95rem;
-            text-align: left; transition: 0.25s;
+            padding: 16px 24px; border: 2px solid rgba(255,255,255,0.15);
+            background: rgba(0,0,0,0.2); border-radius: 12px;
+            cursor: pointer; width: 100%; color: rgba(255,255,255,0.9);
+            font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 500;
+            text-align: left; transition: var(--transition-smooth);
         }
-        .btn-answer:hover { border-color: var(--gold); background: rgba(232,184,75,0.08); }
+        .btn-answer:hover:not(:disabled) { border-color: var(--gold); background: rgba(232,184,75,0.1); transform: translateX(5px); }
         .btn-answer.correct { background: rgba(46,205,120,0.2); border-color: #2ecc71; color: #2ecc71; }
         .btn-answer.wrong { background: rgba(231,76,60,0.2); border-color: #e74c3c; color: #e74c3c; }
+        .btn-answer:disabled { cursor: not-allowed; }
+        
         #next-btn {
             background: var(--primary); color: white;
-            border: none; padding: 12px 28px;
-            border-radius: 50px; margin-top: 20px;
+            border: none; padding: 14px 32px;
+            border-radius: 50px; margin-top: 25px;
             cursor: pointer; font-family: 'Outfit', sans-serif;
-            font-size: 0.9rem; font-weight: 600;
-            transition: 0.3s;
+            font-size: 1rem; font-weight: 700;
+            transition: var(--transition-smooth);
+            width: 100%; text-transform: uppercase; letter-spacing: 1px;
         }
-        #next-btn:hover { background: var(--primary-dark); }
-        .hide { display: none; }
+        #next-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .hide { display: none !important; }
 
-        /* ====== MODAL ====== */
+        /* ====== MODALS & LIGHTBOX ====== */
         .modal {
             display: none; position: fixed;
-            inset: 0; z-index: 2000;
-            background: rgba(0,0,0,0.85);
+            inset: 0; z-index: 3000;
+            background: rgba(0,0,0,0.9);
             align-items: center; justify-content: center;
             padding: 20px;
+            backdrop-filter: blur(5px);
         }
         .modal-content {
-            background: var(--card-bg); width: 100%; max-width: 750px;
-            border-radius: 20px; overflow: hidden;
+            background: var(--card-bg); width: 100%; max-width: 800px;
+            border-radius: 24px; overflow: hidden;
             position: relative;
-            animation: modalIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            animation: modalIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+            display: flex; flex-direction: column;
         }
-        @keyframes modalIn { from { transform: scale(0.85) translateY(30px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+        @keyframes modalIn { from { transform: scale(0.9) translateY(30px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
         .modal-img-area {
-            position: relative; height: 360px;
-            display: flex; align-items: center; background: #000;
+            position: relative; height: 400px;
+            background: #000;
         }
         .modal-img-area img {
             width: 100%; height: 100%; object-fit: cover;
             display: block;
         }
-        .slider-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(0,0,0,0.55); color: white;
-            border: none; padding: 14px 18px; cursor: pointer;
-            font-size: 1.1rem; z-index: 10;
-            border-radius: 6px; transition: 0.3s;
-        }
-        .slider-btn:hover { background: var(--primary); }
-        .prev { left: 12px; }
-        .next { right: 12px; }
         .modal-img-caption {
             position: absolute; bottom: 0; left: 0; right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
-            padding: 40px 30px 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 50px 40px 25px;
         }
         .modal-img-caption h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.9rem; color: white; font-weight: 700;
+            font-size: 2.2rem; color: white; font-weight: 700;
         }
-        .modal-body { padding: 28px 30px 30px; }
+        .modal-body { padding: 35px 40px; }
         .modal-body .type-pill {
-            display: inline-block; padding: 4px 14px;
-            border-radius: 20px; font-size: 0.72rem;
+            display: inline-block; padding: 6px 16px;
+            border-radius: 30px; font-size: 0.75rem;
             font-weight: 700; letter-spacing: 1.5px;
-            text-transform: uppercase; margin-bottom: 14px;
+            text-transform: uppercase; margin-bottom: 15px;
         }
-        .cultural { background: rgba(212,132,58,0.15); color: var(--primary); }
-        .nature { background: rgba(46,125,91,0.15); color: var(--accent); }
-        .modal-body p { color: var(--text-light); line-height: 1.75; font-size: 0.95rem; }
+        .modal-body.cultural .type-pill { background: rgba(212,132,58,0.15); color: var(--primary); }
+        .modal-body.nature .type-pill { background: rgba(46,125,91,0.15); color: var(--accent); }
+        .modal-body p { color: var(--text-light); line-height: 1.8; font-size: 1.05rem; }
         .close-btn {
-            position: absolute; top: 14px; right: 18px;
-            color: white; font-size: 1.8rem; cursor: pointer;
-            z-index: 20; line-height: 1;
-            text-shadow: 0 0 8px rgba(0,0,0,0.8);
-            transition: transform 0.2s;
+            position: absolute; top: 20px; right: 25px;
+            background: rgba(0,0,0,0.5); color: white;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; cursor: pointer;
+            z-index: 20; transition: var(--transition-smooth);
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        .close-btn:hover { transform: rotate(90deg); }
-        .img-dots {
-            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 6px; z-index: 10;
+        .close-btn:hover { background: var(--primary); transform: rotate(90deg); }
+
+        #lightbox {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.95); z-index: 4000;
+            align-items: center; justify-content: center;
+            backdrop-filter: blur(8px);
         }
-        .dot {
-            width: 7px; height: 7px; border-radius: 50%;
-            background: rgba(255,255,255,0.4); cursor: pointer;
-            transition: background 0.3s;
+        #lightbox img {
+            max-width: 90vw; max-height: 90vh;
+            border-radius: 12px; object-fit: contain;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        .dot.active { background: white; }
+        .lb-close {
+            position: absolute; top: 30px; right: 40px;
+            color: white; font-size: 3rem; cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .lb-close:hover { transform: rotate(90deg) scale(1.1); color: var(--primary); }
 
         /* ====== FOOTER ====== */
         footer {
             background: #0A0600;
             color: #C0A880;
-            padding: 70px 5% 24px;
+            padding: 80px 5% 30px;
         }
         .footer-top {
             display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 50px; max-width: 1200px; margin: 0 auto;
+            gap: 50px; max-width: 1280px; margin: 0 auto;
             padding-bottom: 50px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .footer-brand .logo { font-size: 1.6rem; margin-bottom: 16px; display: block; }
-        .footer-brand p { font-size: 0.88rem; line-height: 1.7; color: #7A6040; }
+        .footer-brand .logo { font-size: 1.8rem; margin-bottom: 20px; display: block; color: white; }
+        .footer-brand p { font-size: 0.95rem; line-height: 1.7; color: #8A7050; }
         .footer-col h4 {
-            font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase;
-            color: var(--primary); margin-bottom: 20px; font-weight: 700;
+            font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--primary); margin-bottom: 25px; font-weight: 700;
         }
         .footer-col ul { list-style: none; }
-        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li { margin-bottom: 12px; }
         .footer-col ul a {
-            color: #7A6040; text-decoration: none; font-size: 0.88rem;
-            transition: color 0.3s; display: flex; align-items: center; gap: 6px;
+            color: #8A7050; text-decoration: none; font-size: 0.95rem;
+            transition: color 0.3s; display: flex; align-items: center; gap: 8px;
         }
-        .footer-col ul a:hover { color: var(--primary); }
+        .footer-col ul a:hover { color: var(--primary); transform: translateX(3px); }
         .footer-bottom {
-            text-align: center; padding-top: 28px;
-            color: #3A2A14; font-size: 0.82rem;
-            max-width: 1200px; margin: 0 auto;
+            text-align: center; padding-top: 30px;
+            color: #5A4A34; font-size: 0.9rem;
+            max-width: 1280px; margin: 0 auto;
         }
 
-        /* ====== ANIMATIONS ====== */
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        /* ====== ANIMATIONS & RESPONSIVE ====== */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes scrollLine { 0%, 100% { transform: scaleY(1); opacity: 1; } 50% { transform: scaleY(0.5); opacity: 0.4; } }
+        @keyframes scrollLine { 0%, 100% { transform: scaleY(1); opacity: 1; transform-origin: top; } 50% { transform: scaleY(0.3); opacity: 0.2; transform-origin: top; } }
 
-        /* ====== SCROLL REVEAL ====== */
         .reveal {
-            opacity: 0; transform: translateY(40px);
-            transition: opacity 0.7s, transform 0.7s;
+            opacity: 0; transform: translateY(50px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .reveal.visible { opacity: 1; transform: none; }
 
-        /* ====== RESPONSIVE ====== */
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
             .map-container { grid-template-columns: 1fr; }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
-            .g-item:nth-child(1), .g-item:nth-child(5) { grid-column: auto; grid-row: auto; }
-            .g-item { height: 200px; }
+            .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+            .g-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+            .g-item:nth-child(4) { grid-column: span 1; }
             .footer-top { grid-template-columns: 1fr 1fr; }
         }
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
             .nav-links { display: none; }
+            .wonders-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px; }
+            .g-item:nth-child(1), .g-item:nth-child(4), .g-item:nth-child(8) { grid-column: span 1; grid-row: span 1; }
             .footer-top { grid-template-columns: 1fr; }
-            .wonders-grid { grid-template-columns: 1fr; }
-            .gallery-grid { grid-template-columns: 1fr 1fr; }
-            table { font-size: 0.8rem; }
-            thead th, tbody td { padding: 12px 10px; }
+            .stat-item { padding: 20px; min-width: 140px; }
         }
-
-        /* ====== LIGHTBOX ====== */
-        #lightbox {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.95); z-index: 3000;
-            align-items: center; justify-content: center;
-        }
-        #lightbox img {
-            max-width: 90vw; max-height: 90vh;
-            border-radius: 8px; object-fit: contain;
-        }
-        .lb-close {
-            position: absolute; top: 20px; right: 30px;
-            color: white; font-size: 2.5rem; cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .lb-close:hover { transform: rotate(90deg); }
     </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav id="navbar">
-    <div class="logo">AFRICA<span>.</span></div>
+    <a href="#" class="logo">AFRICA<span>.</span></a>
     <ul class="nav-links">
         <li><a href="#hero">Начало</a></li>
         <li><a href="#wonders-section">Чудеса</a></li>
-        <li><a href="#map-section">Факти</a></li>
+        <li><a href="#map-section">Карта</a></li>
         <li><a href="#gallery-section">Галерия</a></li>
         <li><a href="#table-section">Страни</a></li>
         <li><a href="#quiz-section">Куиз</a></li>
@@ -595,124 +608,90 @@
     </div>
 </nav>
 
-<!-- HERO -->
 <header id="hero">
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <span class="hero-eyebrow">Открий континента</span>
         <h1>Добре дошли в <em>Африка</em></h1>
-        <p>Вторият по-голям континент в света — земята на великите сафарита, древните цивилизации и невероятното биологично разнообразие.</p>
+        <p>Вторият по големина континент в света — земята на великите сафарита, древните цивилизации и изумително биологично разнообразие.</p>
         <div class="hero-buttons">
             <a href="#wonders-section" class="btn-primary">Разгледай чудесата</a>
-            <a href="#quiz-section" class="btn-secondary">Тествай знанията си</a>
+            <a href="#map-section" class="btn-secondary">Интерактивна карта</a>
         </div>
     </div>
     <div class="hero-scroll">
-        <span>Превъртете</span>
+        <span>Превъртете надолу</span>
         <div class="arrow"></div>
     </div>
 </header>
 
-<!-- STATS -->
 <div class="stats-strip">
     <div class="stat-item">
         <div class="stat-number" id="stat-countries">0</div>
-        <div class="stat-label">Страни</div>
+        <div class="stat-label">Суверенни Страни</div>
     </div>
     <div class="stat-item">
         <div class="stat-number" id="stat-area">0</div>
-        <div class="stat-label">млн. км² площ</div>
+        <div class="stat-label">Млн. км² Площ</div>
     </div>
     <div class="stat-item">
         <div class="stat-number" id="stat-pop">0</div>
-        <div class="stat-label">млрд. население</div>
+        <div class="stat-label">Млрд. Население</div>
     </div>
     <div class="stat-item">
         <div class="stat-number" id="stat-lang">0</div>
-        <div class="stat-label">Езика</div>
+        <div class="stat-label">Езика и Диалекта</div>
     </div>
 </div>
 
-<!-- WONDERS -->
 <section id="wonders-section">
     <div class="section-header reveal">
         <div class="section-eyebrow">Природни и Културни</div>
         <h2>10-те Чудеса на Африка</h2>
-        <p>Кликнете върху карта за повече информация и снимки.</p>
+        <p>Запознайте се с най-емблематичните забележителности на континента. Кликнете върху всяка карта за детайлна информация.</p>
         <div class="section-divider"></div>
     </div>
     <div class="wonders-grid" id="wonders-container"></div>
 </section>
 
-<!-- MAP / FACTS -->
 <section id="map-section">
     <div class="map-container">
-        <div class="map-svg-wrap reveal">
-            <svg class="africa-map" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="mapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#E8C060;stop-opacity:1" />
-                        <stop offset="50%" style="stop-color:#D4843A;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#B85A20;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <!-- Africa silhouette -->
-                <path d="M160,10 L240,10 L280,25 L310,50 L330,80 L340,120 L345,160 L340,190 L350,220 L355,250 L345,280 L330,310 L310,340 L290,370 L270,395 L250,415 L230,430 L210,440 L195,450 L180,445 L165,430 L145,415 L125,395 L108,370 L95,340 L80,310 L70,280 L65,250 L68,220 L75,190 L68,160 L65,120 L72,80 L90,50 L118,25 Z" 
-                      fill="url(#mapGrad)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
-                <!-- Sahara texture lines -->
-                <line x1="120" y1="80" x2="280" y2="80" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-                <line x1="110" y1="110" x2="290" y2="110" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-                <line x1="105" y1="140" x2="295" y2="140" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-                <!-- Equator indicator -->
-                <line x1="70" y1="260" x2="345" y2="260" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-dasharray="8,4"/>
-                <text x="72" y="256" fill="rgba(255,255,255,0.6)" font-size="10" font-family="Outfit">Екватор</text>
-                <!-- Major dots -->
-                <circle cx="200" cy="90" r="5" fill="white" opacity="0.9"/>
-                <text x="206" y="94" fill="white" font-size="9" font-family="Outfit">Сахара</text>
-                <circle cx="200" cy="260" r="5" fill="#2E7D5B" opacity="0.9"/>
-                <text x="206" y="264" fill="white" font-size="9" font-family="Outfit">Конго</text>
-                <circle cx="240" cy="155" r="4" fill="#E8B84B" opacity="0.9"/>
-                <text x="246" y="159" fill="white" font-size="9" font-family="Outfit">Нил</text>
-                <circle cx="165" cy="340" r="4" fill="#C9392A" opacity="0.9"/>
-                <text x="170" y="344" fill="white" font-size="9" font-family="Outfit">Килиманджаро</text>
-                <circle cx="200" cy="420" r="4" fill="white" opacity="0.9"/>
-                <text x="145" y="435" fill="white" font-size="9" font-family="Outfit">Нос на добра надежда</text>
-            </svg>
-        </div>
         <div class="map-info reveal">
-            <div class="section-eyebrow">Интерактивна карта</div>
+            <div class="section-eyebrow">География и Факти</div>
             <h2>Континентът на <span>контрастите</span></h2>
-            <p>Африка е вторият по-голям и втори по-населен континент в света. От пустинята Сахара на север до Нос на Добрата Надежда на юг — разнообразието е безкрайно.</p>
-            <p>Тук са родени едни от най-ранните човешки цивилизации, а природните чудеса привличат милиони туристи всяка година.</p>
+            <p>Африка е необятна. От горещите пясъци на пустинята Сахара на север до бутащите се океани при Нос Добра Надежда на юг — тук се крие най-богатият спектър от екосистеми на планетата.</p>
+            <p>Използвайте нашата интерактивна карта, за да намерите точните локации на 10-те чудеса. Приближете, за да видите детайли от сателит.</p>
             <div class="fact-grid">
                 <div class="fact-box">
-                    <div class="fact-val">30.4</div>
-                    <div class="fact-key">Милиона км² площ</div>
+                    <div class="fact-val">20%</div>
+                    <div class="fact-key">От земната суша</div>
                 </div>
                 <div class="fact-box">
-                    <div class="fact-val">1.4 млрд.</div>
-                    <div class="fact-key">Население</div>
+                    <div class="fact-val">147+</div>
+                    <div class="fact-key">ЮНЕСКО Обекти</div>
+                </div>
+                <div class="fact-box">
+                    <div class="fact-val">6650 км</div>
+                    <div class="fact-key">Дължина на Нил</div>
                 </div>
                 <div class="fact-box">
                     <div class="fact-val">54</div>
-                    <div class="fact-key">Суверенни държави</div>
-                </div>
-                <div class="fact-box">
-                    <div class="fact-val">2000+</div>
-                    <div class="fact-key">Езика и диалекта</div>
+                    <div class="fact-key">Държави</div>
                 </div>
             </div>
+        </div>
+        <div class="reveal">
+            <div id="interactive-map"></div>
         </div>
     </div>
 </section>
 
-<!-- TABLE -->
 <section id="table-section">
     <div class="section-header reveal">
-        <div class="section-eyebrow">Данни</div>
-        <h2>Топ 10 Страни на Африка</h2>
-        <p>По площ, население и брой ЮНЕСКО обекти.</p>
+        <div class="section-eyebrow">Статистика</div>
+        <h2>Топ 10 Страни в Африка</h2>
+        <p>Класация по площ, население и богатство на световното културно наследство.</p>
         <div class="section-divider"></div>
     </div>
     <div class="table-wrap reveal">
@@ -744,37 +723,34 @@
     </div>
 </section>
 
-<!-- GALLERY -->
 <section id="gallery-section">
     <div class="section-header reveal">
         <div class="section-eyebrow">Фотогалерия</div>
         <h2>Красотата на Африка</h2>
-        <p>Натиснете снимка, за да я видите в пълен размер.</p>
+        <p>Избрани кадри от дивата природа и историческите монументи. Кликнете за пълен размер.</p>
         <div class="section-divider"></div>
     </div>
     <div class="gallery-grid" id="gallery-grid"></div>
 </section>
 
-<!-- VIDEO -->
 <section id="video-section">
     <div class="section-header reveal">
         <div class="section-eyebrow">Мултимедия</div>
-        <h2>Открий Африка</h2>
-        <p>Гледайте документален видеоклип за природата и животните на Африка.</p>
+        <h2>Животът в Саваната</h2>
+        <p>Потопете се в магията на африканската природа с този зашеметяващ документален филм.</p>
         <div class="section-divider"></div>
     </div>
     <div class="video-container reveal">
-        <iframe src="https://www.youtube.com/embed/XqZsoesa55w" title="Africa Documentary" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/Oto-z_g45bQ" title="Africa Documentary" allowfullscreen></iframe>
     </div>
 </section>
 
-<!-- QUIZ -->
 <section id="quiz-section">
     <div class="section-header reveal">
-        <div class="section-eyebrow">Интерактивен Куиз</div>
+        <div class="section-eyebrow">Интерактивен Тест</div>
         <h2>Познаваш ли Африка?</h2>
     </div>
-    <div class="quiz-wrapper">
+    <div class="quiz-wrapper reveal">
         <div id="quiz-card">
             <div class="quiz-head">
                 <span id="q-number">Въпрос 1 от 6</span>
@@ -783,234 +759,182 @@
             <div class="quiz-progress"><div class="quiz-progress-bar" id="progress-bar" style="width:16%"></div></div>
             <h3 id="question">Зарежда се...</h3>
             <div id="answer-buttons" class="btn-grid"></div>
-            <button id="next-btn" class="hide">Следващ →</button>
+            <button id="next-btn" class="hide">Следващ Въпрос <i class="fas fa-arrow-right"></i></button>
         </div>
     </div>
 </section>
 
-<!-- MODAL -->
 <div id="modal" class="modal">
     <div class="modal-content">
         <span class="close-btn" id="modal-close">&times;</span>
         <div class="modal-img-area">
-            <button class="slider-btn prev" onclick="changeImage(-1)">&#10094;</button>
-            <img src="" alt="" id="modal-img">
-            <button class="slider-btn next" onclick="changeImage(1)">&#10095;</button>
+            <img src="" alt="Wonder Details" id="modal-img">
             <div class="modal-img-caption">
                 <h2 id="modal-title"></h2>
             </div>
-            <div class="img-dots" id="img-dots"></div>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" id="modal-body">
             <span id="modal-type-pill" class="type-pill"></span>
             <p id="modal-desc"></p>
         </div>
     </div>
 </div>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
     <span class="lb-close" id="lb-close">&times;</span>
-    <img src="" alt="" id="lb-img">
+    <img src="" alt="Full size image" id="lb-img">
 </div>
 
-<!-- FOOTER -->
 <footer id="contacts">
     <div class="footer-top">
         <div class="footer-brand">
             <span class="logo">AFRICA<span>.</span></span>
-            <p>Сайтът е създаден за Второ ниво на националното състезание по информационни технологии IT Знайко 2026. Представя природното и културно богатство на африканския континент.</p>
+            <p>Проект, създаден специално за второ ниво на националното състезание по информационни технологии <strong>IT Знайко 2026</strong>. Представяме богатството на африканския континент.</p>
             <br>
-            <p style="font-size:0.78rem; color:#4A3A24;">© 2026 CodeAvengers — СофтУни БУДИТЕЛ</p>
+            <p style="font-size:0.85rem; color:#A89070; font-weight:600;">© 2026 CodeAvengers</p>
         </div>
         <div class="footer-col">
             <h4>Навигация</h4>
             <ul>
-                <li><a href="#hero"><i class="fas fa-chevron-right" style="font-size:0.6rem"></i> Начало</a></li>
-                <li><a href="#wonders-section"><i class="fas fa-chevron-right" style="font-size:0.6rem"></i> Чудеса</a></li>
-                <li><a href="#map-section"><i class="fas fa-chevron-right" style="font-size:0.6rem"></i> Факти</a></li>
-                <li><a href="#gallery-section"><i class="fas fa-chevron-right" style="font-size:0.6rem"></i> Галерия</a></li>
-                <li><a href="#table-section"><i class="fas fa-chevron-right" style="font-size:0.6rem"></i> Страни</a></li>
-                <li><a href="#quiz-section"><i class="fas fa-chevron-right" style="font-size:0.6rem"></i> Куиз</a></li>
+                <li><a href="#hero"><i class="fas fa-chevron-right" style="font-size:0.7rem"></i> Начало</a></li>
+                <li><a href="#wonders-section"><i class="fas fa-chevron-right" style="font-size:0.7rem"></i> Чудеса</a></li>
+                <li><a href="#map-section"><i class="fas fa-chevron-right" style="font-size:0.7rem"></i> Карта</a></li>
+                <li><a href="#gallery-section"><i class="fas fa-chevron-right" style="font-size:0.7rem"></i> Галерия</a></li>
+                <li><a href="#quiz-section"><i class="fas fa-chevron-right" style="font-size:0.7rem"></i> Куиз</a></li>
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Официални ресурси</h4>
+            <h4>Източници</h4>
             <ul>
-                <li><a href="https://whc.unesco.org" target="_blank"><i class="fas fa-external-link-alt" style="font-size:0.6rem"></i> UNESCO World Heritage</a></li>
-                <li><a href="https://www.nationalgeographic.com" target="_blank"><i class="fas fa-external-link-alt" style="font-size:0.6rem"></i> National Geographic</a></li>
-                <li><a href="https://www.africa.com" target="_blank"><i class="fas fa-external-link-alt" style="font-size:0.6rem"></i> Africa.com</a></li>
-                <li><a href="https://au.int" target="_blank"><i class="fas fa-external-link-alt" style="font-size:0.6rem"></i> African Union</a></li>
+                <li><a href="https://whc.unesco.org" target="_blank"><i class="fas fa-external-link-alt" style="font-size:0.7rem"></i> UNESCO Heritage</a></li>
+                <li><a href="https://www.nationalgeographic.com" target="_blank"><i class="fas fa-external-link-alt" style="font-size:0.7rem"></i> Nat Geo Africa</a></li>
+                <li><a href="https://au.int" target="_blank"><i class="fas fa-external-link-alt" style="font-size:0.7rem"></i> African Union</a></li>
             </ul>
         </div>
         <div class="footer-col">
             <h4>Контакти</h4>
             <ul>
-                <li><a href="#"><i class="fas fa-map-marker-alt" style="font-size:0.6rem"></i> гр. София, България</a></li>
-                <li><a href="mailto:codeavengers.team@gmail.com"><i class="fas fa-envelope" style="font-size:0.6rem"></i> codeavengers.team@gmail.com</a></li>
-                <li><a href="#"><i class="fas fa-school" style="font-size:0.6rem"></i> СофтУни БУДИТЕЛ</a></li>
+                <li><a href="#"><i class="fas fa-map-marker-alt" style="font-size:0.8rem"></i> България, IT Знайко</a></li>
+                <li><a href="mailto:codeavengers.team@gmail.com"><i class="fas fa-envelope" style="font-size:0.8rem"></i> team@codeavengers.bg</a></li>
+                <li><a href="#"><i class="fas fa-code" style="font-size:0.8rem"></i> Web Platform: Daskalo.com</a></li>
             </ul>
         </div>
     </div>
     <div class="footer-bottom">
-        Разработено с ❤️ от екип CodeAvengers — IT Знайко 2026
+        Разработено с изключително внимание към детайла и UI/UX дизайна.
     </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
 <script>
-/* ====== DATA ====== */
+/* ====== REPAIRED DATA WITH NEW DISCORD IMAGES ====== */
+const providedImages = [
+    "https://media.discordapp.net/attachments/1342756068018753589/1479388337637953596/1.jpg?ex=69abdb41&is=69aa89c1&hm=dd6e94911d3388e887cfed83b3bf4eab0b7f6e33c9269ac07ace22ef40bac1e7&=&format=webp&width=1296&height=864",
+    "https://media.discordapp.net/attachments/1342756068018753589/1479388337138700368/2.jpg?ex=69abdb41&is=69aa89c1&hm=3706fb9843875c2da4604957e1573901fc4e457758a5a9482b5580c8a666d0cc&=&format=webp&width=1152&height=864",
+    "https://media.discordapp.net/attachments/1342756068018753589/1479388335930609716/3.jpg?ex=69abdb40&is=69aa89c0&hm=b84a1f8f8cf3911ca3bb78e33f405f2e7146fb70af786aabbadb285150788b82&=&format=webp&width=1296&height=864",
+    "https://media.discordapp.net/attachments/1342756068018753589/1479388334978633750/4.jpg?ex=69abdb40&is=69aa89c0&hm=af39aaf0ece5d371353a6b849befa54321eb978e9ebd8c53077400968f406013&=&format=webp&width=1152&height=864",
+    "https://media.discordapp.net/attachments/1342756068018753589/1479388334269927498/5.jpg?ex=69abdb40&is=69aa89c0&hm=2abed2689dd9dfc9e43230dd0c4fd8edf3dea1f8fb41a105aadf040734735f4b&=&format=webp&width=1535&height=863",
+    "https://media.discordapp.net/attachments/1342756068018753589/1479388333095256166/6.jpg?ex=69abdb40&is=69aa89c0&hm=efd04e9e6fa9bd028abd8a3ff3549bc21a6767d5756aa008c8bb880a43c9030c&=&format=webp&width=1535&height=864",
+    "https://media.discordapp.net/attachments/1342756068018753589/1479388331522654218/7.jpg?ex=69abdb3f&is=69aa89bf&hm=24c746974e8bd81c9c4cc8fe407e41eb86308d173589482658f1620cb6c558d1&=&format=webp&width=1296&height=864",
+    "https://media.discordapp.net/attachments/1342756068018753589/1479388330708701296/8.jpg?ex=69abdb3f&is=69aa89bf&hm=1575b60d9d35e19d107205f2f7b95391fa33d5dc1e485d03703c1eddb76855d9&=&format=webp&width=1298&height=864",
+    "https://media.discordapp.net/attachments/1342756068018753589/1479388329773502646/9.jpg?ex=69abdb3f&is=69aa89bf&hm=175cc340f6126bddfd53403f006b8d3c883c52b058f6d620f7b220585005ae00&=&format=webp&width=1296&height=864",
+    "https://media.discordapp.net/attachments/1342756068018753589/1479388328485715968/10.jpg?ex=69abdb3f&is=69aa89bf&hm=c869a816cf50309d4fa73cd885191dc034e65be44310ec2b8aca341e4a7075bd&=&format=webp&width=1152&height=864"
+];
+
 const wonders = [
     {
-        id: 1,
-        title: "Пирамидите в Гиза",
-        type: "cultural",
-        typeLabel: "Културен обект",
-        images: [
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388337637953596/1.jpg?ex=69abdb41&is=69aa89c1&hm=dd6e94911d3388e887cfed83b3bf4eab0b7f6e33c9269ac07ace22ef40bac1e7&=&format=webp&width=1896&height=1265",
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388337138700368/2.jpg?ex=69abdb41&is=69aa89c1&hm=3706fb9843875c2da4604957e1573901fc4e457758a5a9482b5580c8a666d0cc&=&format=webp&width=1686&height=1265"
-        ],
+        id: 1, title: "Пирамидите в Гиза", type: "cultural", typeLabel: "Културен обект",
+        img: providedImages[0], lat: 29.9792, lng: 31.1342,
         short: "Единствените оцелели от седемте чудеса на древния свят, символ на вечната египетска цивилизация.",
-        long: "Построени преди над 4500 години, пирамидите в Гиза остават едно от най-великите инженерни постижения в човешката история. Голямата пирамида на Хеопс е висока 138 метра и е изградена от над 2.3 милиона каменни блока. Те са ЮНЕСКО обект от 1979 г. и привличат над 15 милиона туристи годишно."
+        long: "Построени преди над 4500 години, пирамидите в Гиза остават едно от най-великите инженерни постижения в човешката история. Голямата пирамида на Хеопс е висока 138 метра и е изградена от над 2.3 милиона каменни блока. ЮНЕСКО обект от 1979 г."
     },
     {
-        id: 2,
-        title: "Планината Килиманджаро",
-        type: "nature",
-        typeLabel: "Природен обект",
-        images: [
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388336505229324/3.jpg?ex=69abdb40&is=69aa89c0&hm=b84a1f8f8cf3991ca3bb78e33f405f2e7146fb70af786aabbadb285150788b82&=&format=webp&width=1896&height=1265",
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388334978633750/4.jpg?ex=69abdb40&is=69aa89c0&hm=af39aaf0ece5d371353a6b849befa54321eb978e9ebd8c53077400968f406013&=&format=webp&width=1686&height=1265"
-        ],
-        short: "Най-високата точка на Африка — свободностоящ вулкан, извисяващ се до 5895 метра над морското равнище.",
-        long: "Килиманджаро в Танзания е най-високата планина в Африка и най-високият свободностоящ вулкан в света. Три вулкански конуса — Кибо, Мавензи и Шира — образуват масива. Върхът му Ухуру е покрит с вечни снегове, въпреки екваториалното си положение. Националният парк около него е ЮНЕСКО обект от 1987 г."
+        id: 2, title: "Планината Килиманджаро", type: "nature", typeLabel: "Природен обект",
+        img: providedImages[1], lat: -3.0674, lng: 37.3556,
+        short: "Най-високата точка на Африка — свободностоящ вулкан, извисяващ се до 5895 метра.",
+        long: "Килиманджаро в Танзания е най-високият свободностоящ вулкан в света. Три вулкански конуса образуват масива. Върхът му Ухуру е покрит с вечни снегове, въпреки екваториалното си положение."
     },
     {
-        id: 3,
-        title: "Сафари в Серенгети",
-        type: "nature",
-        typeLabel: "Природен обект",
-        images: [
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388334269927498/5.jpg?ex=69abdb40&is=69aa89c0&hm=2afd447e8bd81c9c4cc8fe407e41eb86308d173588472687e1b2af6e6443d0c6&=&format=webp&width=2247&height=1265",
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388333095256166/6.jpg?ex=69abdb40&is=69aa89c0&hm=efd04e9e6fa9bd028abd8a3ff3549bc21a6767d5756aa008c8bb880a43c9030c&=&format=webp&width=2247&height=1265"
-        ],
-        short: "Домът на Голямата миграция — над 1.5 милиона антилопи гну преминават през равнините всяка година.",
-        long: "Серенгети в Танзания е един от най-известните национални паркове в света. Всяка година тук се случва най-великото природно шоу — Голямата миграция на над 1.5 млн. гну, 200 000 зебри и 400 000 газели. Паркът е ЮНЕСКО обект от 1981 г. и е дом на голямата африканска петорка: лъв, леопард, слон, носорог и биволи."
+        id: 3, title: "Сафари в Серенгети", type: "nature", typeLabel: "Природен обект",
+        img: providedImages[2], lat: -2.3333, lng: 34.8333,
+        short: "Домът на Голямата миграция — над 1.5 милиона антилопи преминават всяка година.",
+        long: "Серенгети в Танзания е дом на най-великото природно шоу — Голямата миграция. Паркът е ЮНЕСКО обект и е дом на голямата африканска петорка: лъв, леопард, слон, носорог и бивол."
     },
     {
-        id: 4,
-        title: "Виктория — Кралицата на водопадите",
-        type: "nature",
-        typeLabel: "Природен обект",
-        images: [
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388331522654218/7.jpg?ex=69abdb3f&is=69aa89bf&hm=24c746974e8bd81c9c4cc8fe407e41eb86308d173589482658f1620cb6c558d1&=&format=webp&width=1896&height=1265",
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388330708701296/8.jpg?ex=69abdb3f&is=69aa89bf&hm=1575b60d9d35e19d107205f2f7b95391fa33d5dc1e485d03703c1eddb76855d9&=&format=webp&width=1901&height=1265"
-        ],
-        short: "Най-големият водопад по ширина в света — над 1.7 км широк и 108 метра висок, наречен 'Димящият гръм'.",
-        long: "Водопадът Виктория на границата между Замбия и Зимбабве е официално признат за едно от Седемте природни чудеса на света. Местните жители го наричат Мози-оа-Туния — 'Дим, който гърми'. По време на пълен дебит водопадът изхвърля над 600 000 кубически метра вода в минута. ЮНЕСКО обект от 1989 г."
+        id: 4, title: "Водопад Виктория", type: "nature", typeLabel: "Природен обект",
+        img: providedImages[3], lat: -17.9243, lng: 25.8572,
+        short: "Най-големият водопад по ширина в света — наречен от местните 'Димящият гръм'.",
+        long: "Водопадът Виктория на границата между Замбия и Зимбабве изхвърля над 600 000 кубически метра вода в минута. Официално признат за едно от Седемте природни чудеса на света."
     },
     {
-        id: 5,
-        title: "Медина на Маракеш",
-        type: "cultural",
-        typeLabel: "Културен обект",
-        images: [
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388329773502646/9.jpg?ex=69abdb3f&is=69aa89bf&hm=175cc340f6126bddfd53403f006b8d3c883c52b058f6d620f7b220585005ae00&=&format=webp&width=1896&height=1265",
-            "https://cdn.discordapp.com/attachments/1342756068018753589/1479388328485715968/10.jpg?ex=69abdb3f&is=69aa89bf&hm=c869a816cf50309d4fa73cd885191dc034e65be44310ec2b8aca341e4a7075bd&"
-        ],
-        short: "Едно от най-добре запазените средновековни ислямски градски ядра в света с уникална архитектура и пазари.",
-        long: "Медината на Маракеш е основана през XI век и е ЮНЕСКО обект от 1985 г. Тесните улички, наречени дерби, са пълни с традиционни фонтани, медресета и занаятчийски работилници. Площадът Джема ел-Фна е центърът на градския живот — театрален, музикален и гастрономически спектакъл, случващ се всеки ден."
+        id: 5, title: "Медина на Маракеш", type: "cultural", typeLabel: "Културен обект",
+        img: providedImages[4], lat: 31.6295, lng: -7.9811,
+        short: "Едно от най-добре запазените средновековни ислямски градски ядра.",
+        long: "Основана през XI век, медината на Маракеш е лабиринт от тесни улички, традиционни пазари и забележителна архитектура. Площадът Джема ел-Фна е сърцето на града."
     },
     {
-        id: 6,
-        title: "Езерото Накуру — Розовото море",
-        type: "nature",
-        typeLabel: "Природен обект",
-        images: [
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388413864972398/12.jpg?ex=69abdb53&is=69aa89d3&hm=f5d03c62e5f6b62bd29b13a80131dd513c1ed095b6477c1046cc9227530e0886&=&format=webp&width=1896&height=1265",
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388414821404876/11.jpg?ex=69abdb53&is=69aa89d3&hm=b823e15f2cd0651b43953d2af0b48c44a38d6771a2c3aeff5a14c7bd2f7ad75d&=&format=webp&width=1896&height=1265"
-        ],
-        short: "Известно с огромните колонии от розови фламинги, превръщащи езерото в живо розово платно.",
-        long: "Езерото Накуру в Кения е рай за любителите на птиците. Стотици хиляди розови фламинги се хранят в алкалните му води, а бреговете му са обитавани от бели носорози и жирафи. То е включено в Националния парк Накуру и е обявено за зона от специален интерес за опазване на биоразнообразието."
+        id: 6, title: "Езерото Накуру", type: "nature", typeLabel: "Природен обект",
+        img: providedImages[5], lat: -0.3667, lng: 36.0833,
+        short: "Известно с огромните колонии от розови фламинги, превръщащи го в розово море.",
+        long: "Разположено в Кения, езерото е рай за любителите на птиците. Стотици хиляди розови фламинги се хранят в алкалните му води, а по бреговете бродят бели носорози."
     },
     {
-        id: 7,
-        title: "Нос Добра Надежда",
-        type: "cultural",
-        typeLabel: "Исторически обект",
-        images: [
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388337637953596/1.jpg?ex=69abdb41&is=69aa89c1&hm=dd6e94911d3388e887cfed83b3bf4eab0b7f6e33c9269ac07ace22ef40bac1e7&=&format=webp&width=1896&height=1265",
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388330708701296/8.jpg?ex=69abdb3f&is=69aa89bf&hm=1575b60d9d35e19d107205f2f7b95391fa33d5dc1e485d03703c1eddb76855d9&=&format=webp&width=1901&height=1265"
-        ],
-        short: "Историческото нарасване на морската търговия между Европа и Азия — легендарен нос на ЮАР.",
-        long: "Нос Добра Надежда е открит от португалеца Бартоломео Диаш през 1488 г. Той е символ на морските открития и е означавал ключов момент в световната история — намирането на морски маршрут от Европа към Азия. Днес е природен резерват с богата флора и фауна, включително пингвини и делфини."
+        id: 7, title: "Нос Добра Надежда", type: "cultural", typeLabel: "Исторически обект",
+        img: providedImages[6], lat: -34.3568, lng: 18.4725,
+        short: "Историческото начало на морската търговия между Европа и Азия.",
+        long: "Открит от Бартоломео Диаш през 1488 г., носът е символ на епохата на Великите географски открития. Днес е зашеметяващ природен резерват."
     },
     {
-        id: 8,
-        title: "Каменните гори на Мадагаскар",
-        type: "nature",
-        typeLabel: "Природен обект",
-        images: [
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388334269927498/5.jpg?ex=69abdb40&is=69aa89c0&hm=2afd447e8bd81c9c4cc8fe407e41eb86308d173588472687e1b2af6e6443d0c6&=&format=webp&width=2247&height=1265",
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388333095256166/6.jpg?ex=69abdb40&is=69aa89c0&hm=efd04e9e6fa9bd028abd8a3ff3549bc21a6767d5756aa008c8bb880a43c9030c&=&format=webp&width=2247&height=1265"
-        ],
-        short: "Уникален природен феномен — острови игловидни варовикови скали, наречени 'Цинги', издигащи се от джунглата.",
-        long: "Цинги де Бемараха на Мадагаскар е ЮНЕСКО обект от 1990 г. Варовиковите иглести скали са формирани от ерозията на тропически валежи в продължение на хилядолетия. Районът е дом на ендемични видове лемури, орхидеи и влечуги, срещащи се само на Мадагаскар. Смята се, че над 80% от флората и фауната тук са уникални за острова."
+        id: 8, title: "Каменни гори Цинги", type: "nature", typeLabel: "Природен обект",
+        img: providedImages[7], lat: -18.2000, lng: 44.7500,
+        short: "Уникални игловидни варовикови скали, издигащи се от джунглата на Мадагаскар.",
+        long: "Цинги де Бемараха е геоложки феномен, създаден от ерозия в продължение на милиони години. Районът крие ендемични видове лемури и редки растения."
     },
     {
-        id: 9,
-        title: "Националният парк Крюгер",
-        type: "nature",
-        typeLabel: "Природен обект",
-        images: [
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388331522654218/7.jpg?ex=69abdb3f&is=69aa89bf&hm=24c746974e8bd81c9c4cc8fe407e41eb86308d173589482658f1620cb6c558d1&=&format=webp&width=1896&height=1265",
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388329773502646/9.jpg?ex=69abdb3f&is=69aa89bf&hm=175cc340f6126bddfd53403f006b8d3c883c52b058f6d620f7b220585005ae00&=&format=webp&width=1896&height=1265"
-        ],
-        short: "Един от най-известните национални паркове в света, дом на Голямата петорка и над 500 вида птици.",
-        long: "Националният парк Крюгер в ЮАР е основан през 1898 г. и е един от най-добре управляваните природни резервати в Африка. С площ от почти 20 000 кв. км, той е дом на над 147 вида бозайници, 500 вида птици и 114 вида влечуги. Голямата африканска петорка — лъвът, леопардът, слонът, носорогът и биволът — се намира тук в естествена среда."
+        id: 9, title: "Парк Крюгер", type: "nature", typeLabel: "Природен обект",
+        img: providedImages[8], lat: -23.9884, lng: 31.5547,
+        short: "Един от най-големите и стари резервати за диви животни в ЮАР.",
+        long: "С площ от близо 20 000 кв. км, паркът Крюгер предлага ненадминато сафари преживяване и е ключов за опазването на африканската мегафауна."
     },
     {
-        id: 10,
-        title: "Лалибела — Скалните църкви",
-        type: "cultural",
-        typeLabel: "Културен обект",
-        images: [
-            "https://cdn.discordapp.com/attachments/1342756068018753589/1479388328485715968/10.jpg?ex=69abdb3f&is=69aa89bf&hm=c869a816cf50309d4fa73cd885191dc034e65be44310ec2b8aca341e4a7075bd&",
-            "https://media.discordapp.net/attachments/1342756068018753589/1479388414821404876/11.jpg?ex=69abdb53&is=69aa89d3&hm=b823e15f2cd0651b43953d2af0b48c44a38d6771a2c3aeff5a14c7bd2f7ad75d&=&format=webp&width=1896&height=1265"
-        ],
-        short: "11 монолитни скални църкви, изсечени в скалата преди 900 години — 'Новият Йерусалим' на Африка.",
-        long: "Лалибела в Етиопия е едно от най-свещените места в Африка. Единадесетте скални църкви са изсечени в цяло в скалния масив по времето на цар Лалибела (XII–XIII в.) и остават активни православни храмове. ЮНЕСКО обект от 1978 г. Всяка година стотици хиляди поклонници пристигат за религиозните празненства."
+        id: 10, title: "Скалните църкви Лалибела", type: "cultural", typeLabel: "Културен обект",
+        img: providedImages[9], lat: 12.0318, lng: 39.0411,
+        short: "11 монолитни църкви, изсечени директно в скалите — 'Новият Йерусалим'.",
+        long: "Тези етиопски светилища от 12-ти век са издялани цели от вулканична скала. И до днес са място за активно поклонение и са шедьовър на инженерната мисъл."
     }
 ];
 
-/* ====== GALLERY IMAGES ====== */
-const galleryImages = [
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388337637953596/1.jpg?ex=69abdb41&is=69aa89c1&hm=dd6e94911d3388e887cfed83b3bf4eab0b7f6e33c9269ac07ace22ef40bac1e7&=&format=webp&width=1896&height=1265",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388337138700368/2.jpg?ex=69abdb41&is=69aa89c1&hm=3706fb9843875c2da4604957e1573901fc4e457758a5a9482b5580c8a666d0cc&=&format=webp&width=1686&height=1265",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388335930609716/3.jpg?ex=69abdb40&is=69aa89c0&hm=b84a1f8f8cf3991ca3bb78e33f405f2e7146fb70af786aabbadb285150788b82&=&format=webp&width=1896&height=1265",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388334978633750/4.jpg?ex=69abdb40&is=69aa89c0&hm=af39aaf0ece5d371353a6b849befa54321eb978e9ebd8c53077400968f406013&=&format=webp&width=1686&height=1265",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388334269927498/5.jpg?ex=69abdb40&is=69aa89c0&hm=2afd447e8bd81c9c4cc8fe407e41eb86308d173588472687e1b2af6e6443d0c6&=&format=webp&width=2247&height=1265",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388333095256166/6.jpg?ex=69abdb40&is=69aa89c0&hm=efd04e9e6fa9bd028abd8a3ff3549bc21a6767d5756aa008c8bb880a43c9030c&=&format=webp&width=2247&height=1265",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388331522654218/7.jpg?ex=69abdb3f&is=69aa89bf&hm=24c746974e8bd81c9c4cc8fe407e41eb86308d173589482658f1620cb6c558d1&=&format=webp&width=1896&height=1265",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388330708701296/8.jpg?ex=69abdb3f&is=69aa89bf&hm=1575b60d9d35e19d107205f2f7b95391fa33d5dc1e485d03703c1eddb76855d9&=&format=webp&width=1901&height=1265",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388329773502646/9.jpg?ex=69abdb3f&is=69aa89bf&hm=175cc340f6126bddfd53403f006b8d3c883c52b058f6d620f7b220585005ae00&=&format=webp&width=1896&height=1265",
-    "https://cdn.discordapp.com/attachments/1342756068018753589/1479388328485715968/10.jpg?ex=69abdb3f&is=69aa89bf&hm=c869a816cf50309d4fa73cd885191dc034e65be44310ec2b8aca341e4a7075bd&",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388413864972398/12.jpg?ex=69abdb53&is=69aa89d3&hm=f5d03c62e5f6b62bd29b13a80131dd513c1ed095b6477c1046cc9227530e0886&=&format=webp&width=1896&height=1265",
-    "https://media.discordapp.net/attachments/1342756068018753589/1479388414821404876/11.jpg?ex=69abdb53&is=69aa89d3&hm=b823e15f2cd0651b43953d2af0b48c44a38d6771a2c3aeff5a14c7bd2f7ad75d&=&format=webp&width=1896&height=1265"
-];
+/* ====== INITIALIZE LEAFLET MAP ====== */
+let map;
+function initMap() {
+    // Center map on Africa
+    map = L.map('interactive-map').setView([2.0, 20.0], 3);
 
-/* ====== QUIZ DATA ====== */
-const questions = [
-    { q: "Коя е най-високата точка на Африка?", a: ["Нос Добра Надежда", "Планината Кения", "Килиманджаро", "Атласките планини"], correct: 2 },
-    { q: "В коя страна се намират Пирамидите в Гиза?", a: ["Мароко", "Египет", "Тунис", "Либия"], correct: 1 },
-    { q: "Как местните жители наричат водопада Виктория?", a: ["Гълтащата вода", "Мози-оа-Туния", "Нгарджи", "Бокасе"], correct: 1 },
-    { q: "Коя е най-населената страна в Африка?", a: ["Египет", "Етиопия", "ДР Конго", "Нигерия"], correct: 3 },
-    { q: "На кой остров живеят лемурите?", a: ["Занзибар", "Мадагаскар", "Мавриций", "Сейшелски острови"], correct: 1 },
-    { q: "Кой африкански град е известен с площада Джема ел-Фна?", a: ["Кайро", "Тунис", "Маракеш", "Акра"], correct: 2 }
-];
+    // Add Esri World Imagery (Beautiful Satellite map)
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    }).addTo(map);
 
-/* ====== MODAL STATE ====== */
-let currentImgIndex = 0;
-let currentImages = [];
+    // Custom map markers
+    const customIcon = L.divIcon({
+        className: 'custom-map-marker',
+        html: `<div style="background-color: var(--primary); width: 15px; height: 15px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.8);"></div>`,
+        iconSize: [15, 15],
+        iconAnchor: [7.5, 7.5]
+    });
+
+    wonders.forEach(w => {
+        const marker = L.marker([w.lat, w.lng], {icon: customIcon}).addTo(map);
+        marker.bindPopup(`
+            <div style="text-align:center;">
+                <h3>${w.title}</h3>
+                <img src="${w.img}" style="width:100%; height:100px; object-fit:cover; border-radius:8px; margin: 8px 0;" alt="${w.title}">
+                <p>${w.typeLabel}</p>
+            </div>
+        `);
+    });
+}
 
 /* ====== RENDER WONDERS ====== */
 function renderWonders() {
@@ -1019,27 +943,29 @@ function renderWonders() {
         container.innerHTML += `
             <div class="wonder-card reveal" onclick="openModal(${w.id})">
                 <div class="card-img-wrap">
-                    <img src="${w.images[0]}" alt="${w.title}" loading="lazy">
+                    <img src="${w.img}" alt="${w.title}" loading="lazy">
                     <span class="card-badge ${w.type}">${w.typeLabel}</span>
                 </div>
                 <div class="card-body">
-                    <h3>${w.title}</h3>
-                    <p>${w.short}</p>
+                    <div>
+                        <h3>${w.title}</h3>
+                        <p>${w.short}</p>
+                    </div>
+                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
                 </div>
-                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </div>
         `;
     });
-    observeReveal();
 }
 
 /* ====== RENDER GALLERY ====== */
 function renderGallery() {
     const grid = document.getElementById('gallery-grid');
-    galleryImages.forEach((src, i) => {
+    // Using the 10 provided images for the gallery
+    providedImages.forEach((src, i) => {
         const div = document.createElement('div');
-        div.className = 'g-item';
-        div.innerHTML = `<img src="${src}" alt="Africa photo ${i+1}" loading="lazy">`;
+        div.className = 'g-item reveal';
+        div.innerHTML = `<img src="${src}" alt="Африка фото ${i+1}" loading="lazy">`;
         div.onclick = () => openLightbox(src);
         grid.appendChild(div);
     });
@@ -1062,38 +988,21 @@ document.getElementById('lightbox').onclick = (e) => {
     }
 };
 
-/* ====== MODAL ====== */
+/* ====== MODAL FOR WONDERS ====== */
 window.openModal = function(id) {
     const wonder = wonders.find(w => w.id === id);
-    currentImages = wonder.images;
-    currentImgIndex = 0;
-    // preload
-    currentImages.forEach(s => { const i = new Image(); i.src = s; });
-    updateModalImg();
+    document.getElementById('modal-img').src = wonder.img;
     document.getElementById('modal-title').textContent = wonder.title;
-    document.getElementById('modal-type-pill').textContent = wonder.typeLabel;
-    document.getElementById('modal-type-pill').className = 'type-pill ' + wonder.type;
+    
+    const typePill = document.getElementById('modal-type-pill');
+    typePill.textContent = wonder.typeLabel;
+    
+    const modalBody = document.getElementById('modal-body');
+    modalBody.className = 'modal-body ' + wonder.type;
+    
     document.getElementById('modal-desc').textContent = wonder.long;
-    // dots
-    const dotsEl = document.getElementById('img-dots');
-    dotsEl.innerHTML = currentImages.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="goToImage(${i})"></div>`).join('');
     document.getElementById('modal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
-};
-
-function updateModalImg() {
-    document.getElementById('modal-img').src = currentImages[currentImgIndex];
-    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentImgIndex));
-}
-
-window.changeImage = function(dir) {
-    currentImgIndex = (currentImgIndex + dir + currentImages.length) % currentImages.length;
-    updateModalImg();
-};
-
-window.goToImage = function(idx) {
-    currentImgIndex = idx;
-    updateModalImg();
 };
 
 function closeModal() {
@@ -1116,22 +1025,24 @@ themeBtn.onclick = () => {
 };
 
 /* ====== ANIMATED STATS ====== */
-function animateCount(id, target, suffix='', duration=1800) {
+function animateCount(id, target, suffix='', duration=2000) {
     const el = document.getElementById(id);
     let start = 0, step = target / (duration / 16);
     const timer = setInterval(() => {
         start = Math.min(start + step, target);
-        el.textContent = Math.round(start) + suffix;
+        // Format with comma if >= 1000
+        let displayVal = start >= 1000 ? Math.round(start).toLocaleString('bg-BG') : Math.round(start);
+        el.textContent = displayVal + suffix;
         if (start >= target) clearInterval(timer);
     }, 16);
 }
-// Trigger when stats strip visible
+
 const statsObs = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
         animateCount('stat-countries', 54);
         animateCount('stat-area', 30, '.4');
         animateCount('stat-pop', 1, '.4');
-        animateCount('stat-lang', 2000);
+        animateCount('stat-lang', 2000, '+');
         statsObs.disconnect();
     }
 }, { threshold: 0.5 });
@@ -1140,17 +1051,26 @@ statsObs.observe(document.querySelector('.stats-strip'));
 /* ====== SCROLL REVEAL ====== */
 function observeReveal() {
     const obs = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
+        entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                entry.target.classList.add('visible');
                 obs.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 }
 
-/* ====== QUIZ ====== */
+/* ====== QUIZ LOGIC FIX ====== */
+const questions = [
+    { q: "Коя е най-високата точка на Африка?", a: ["Нос Добра Надежда", "Планината Кения", "Килиманджаро", "Атласките планини"], correct: 2 },
+    { q: "В коя страна се намират Пирамидите в Гиза?", a: ["Мароко", "Египет", "Тунис", "Либия"], correct: 1 },
+    { q: "Как местните жители наричат водопада Виктория?", a: ["Гълтащата вода", "Мози-оа-Туния", "Нгарджи", "Бокасе"], correct: 1 },
+    { q: "Коя е най-населената държава в Африка?", a: ["Египет", "Етиопия", "ДР Конго", "Нигерия"], correct: 3 },
+    { q: "На кой остров живеят лемурите?", a: ["Занзибар", "Мадагаскар", "Мавриций", "Сейшелски острови"], correct: 1 },
+    { q: "Кой африкански град е известен с площада Джема ел-Фна?", a: ["Кайро", "Тунис", "Маракеш", "Акра"], correct: 2 }
+];
+
 let qIndex = 0, score = 0;
 
 function loadQuiz() {
@@ -1160,6 +1080,7 @@ function loadQuiz() {
     document.getElementById('progress-bar').style.width = `${((qIndex + 1) / questions.length) * 100}%`;
     const btns = document.getElementById('answer-buttons');
     btns.innerHTML = '';
+    
     q.a.forEach((ans, i) => {
         const btn = document.createElement('button');
         btn.textContent = ans;
@@ -1171,29 +1092,50 @@ function loadQuiz() {
 }
 
 function checkAnswer(selected, correct, btn) {
-    document.querySelectorAll('.btn-answer').forEach(b => b.disabled = true);
-    if (selected === correct) { btn.classList.add('correct'); score += 10; }
-    else { btn.classList.add('wrong'); document.querySelectorAll('.btn-answer')[correct].classList.add('correct'); }
+    const allBtns = document.querySelectorAll('.btn-answer');
+    allBtns.forEach(b => b.disabled = true);
+    
+    if (selected === correct) { 
+        btn.classList.add('correct'); 
+        score += 10; 
+    } else { 
+        btn.classList.add('wrong'); 
+        allBtns[correct].classList.add('correct'); 
+    }
+    
     document.getElementById('score-live').textContent = `Точки: ${score}`;
-    const next = document.getElementById('next-btn');
-    next.classList.remove('hide');
-    next.textContent = qIndex < questions.length - 1 ? 'Следващ →' : '🔄 Рестарт';
-    next.onclick = () => {
-        if (qIndex < questions.length - 1) { qIndex++; loadQuiz(); }
-        else { qIndex = 0; score = 0; document.getElementById('score-live').textContent = 'Точки: 0'; loadQuiz(); }
+    
+    const nextBtn = document.getElementById('next-btn');
+    nextBtn.classList.remove('hide');
+    nextBtn.innerHTML = qIndex < questions.length - 1 ? 'Следващ Въпрос <i class="fas fa-arrow-right"></i>' : '🔄 Рестартирай теста';
+    
+    // Clear old event listener by replacing the node or overwriting
+    nextBtn.onclick = () => {
+        if (qIndex < questions.length - 1) { 
+            qIndex++; 
+            loadQuiz(); 
+        } else { 
+            qIndex = 0; 
+            score = 0; 
+            document.getElementById('score-live').textContent = 'Точки: 0'; 
+            loadQuiz(); 
+        }
     };
 }
 
 /* ====== INIT ====== */
-renderWonders();
-renderGallery();
-loadQuiz();
-observeReveal();
+document.addEventListener("DOMContentLoaded", () => {
+    renderWonders();
+    renderGallery();
+    loadQuiz();
+    initMap();
+    observeReveal();
+});
 
 /* ====== NAVBAR SCROLL EFFECT ====== */
 window.addEventListener('scroll', () => {
     document.getElementById('navbar').style.boxShadow =
-        window.scrollY > 50 ? '0 2px 20px rgba(90,50,10,0.12)' : 'none';
+        window.scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.15)' : 'none';
 });
 </script>
 </body>
