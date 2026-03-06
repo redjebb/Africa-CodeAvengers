@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
     <style>
-        /* ====== ROOT VARIABLES ====== */
         :root {
             --primary: #D4843A;
             --primary-dark: #B86B25;
@@ -37,7 +36,6 @@
             --border: rgba(212,132,58,0.2);
         }
 
-        /* ====== RESET & BASE ====== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
@@ -48,7 +46,6 @@
             transition: var(--transition-smooth);
         }
 
-        /* ====== GRAIN OVERLAY ====== */
         body::before {
             content: '';
             position: fixed;
@@ -59,7 +56,6 @@
             opacity: 0.5;
         }
 
-        /* ====== NAVBAR ====== */
         #navbar {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             background: var(--nav-bg);
@@ -101,7 +97,6 @@
         }
         #theme-toggle:hover { border-color: var(--primary); transform: scale(1.05); }
 
-        /* ====== HERO ====== */
         #hero {
             height: 100vh; min-height: 600px;
             position: relative; display: flex;
@@ -111,7 +106,6 @@
         }
         .hero-bg {
             position: absolute; inset: 0;
-            /* Using Image 1 for Hero */
             background: url('https://media.discordapp.net/attachments/1342756068018753589/1479388337637953596/1.jpg?ex=69abdb41&is=69aa89c1&hm=dd6e94911d3388e887cfed83b3bf4eab0b7f6e33c9269ac07ace22ef40bac1e7&=&format=webp&width=1296&height=864') center/cover no-repeat;
             transform: scale(1.05);
             transition: transform 10s ease-out;
@@ -176,7 +170,6 @@
             animation: scrollLine 2s infinite cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        /* ====== STATS STRIP ====== */
         .stats-strip {
             background: var(--primary);
             display: flex; justify-content: center; gap: 0;
@@ -193,7 +186,6 @@
         .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; line-height: 1; }
         .stat-label { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.9; margin-top: 8px; font-weight: 600; }
 
-        /* ====== SECTION HEADERS ====== */
         .section-header { text-align: center; margin-bottom: 70px; }
         .section-eyebrow {
             display: inline-block; font-size: 0.75rem; font-weight: 600;
@@ -217,7 +209,6 @@
             border-radius: 2px;
         }
 
-        /* ====== WONDERS GRID ====== */
         #wonders-section { padding: 100px 5%; }
         .wonders-grid {
             display: grid;
@@ -264,7 +255,6 @@
         }
         .wonder-card:hover .card-arrow { background: var(--primary); color: white; transform: translateX(5px); }
 
-        /* ====== INTERACTIVE MAP SECTION ====== */
         #map-section {
             padding: 100px 5%;
             background: var(--card-bg);
@@ -280,9 +270,8 @@
             border-radius: 20px;
             box-shadow: var(--shadow);
             border: 2px solid var(--border);
-            z-index: 1; /* Keep leaflet below modals */
+            z-index: 1; 
         }
-        /* Style leaflet popups */
         .leaflet-popup-content-wrapper { background: var(--card-bg); color: var(--text); border-radius: 12px; }
         .leaflet-popup-tip { background: var(--card-bg); }
         .leaflet-popup-content h3 { font-family: 'Cormorant Garamond', serif; color: var(--primary); font-size: 1.3rem; margin-bottom: 5px; }
@@ -308,7 +297,6 @@
         }
         .fact-box .fact-key { font-size: 0.8rem; font-weight: 600; color: var(--text-light); margin-top: 8px; text-transform: uppercase; letter-spacing: 1px;}
 
-        /* ====== TABLE SECTION ====== */
         #table-section { padding: 100px 5%; }
         .table-wrap { max-width: 1100px; margin: 0 auto; overflow-x: auto; border-radius: 16px; box-shadow: var(--shadow); }
         table {
@@ -337,7 +325,6 @@
         .region-south { background: rgba(212,132,58,0.15); color: var(--primary-dark); }
         .region-central { background: rgba(100,80,160,0.12); color: #5040A0; }
 
-        /* ====== GALLERY SECTION ====== */
         #gallery-section { padding: 100px 5%; background: #0F0A04; }
         #gallery-section .section-header h2 { color: white; }
         #gallery-section .section-header p { color: rgba(255,255,255,0.6); }
@@ -353,7 +340,6 @@
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        /* Dynamic grid spans */
         .g-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
         .g-item:nth-child(4) { grid-column: span 2; }
         .g-item:nth-child(8) { grid-row: span 2; }
@@ -372,7 +358,6 @@
         }
         .g-item:hover::after { opacity: 1; }
 
-        /* ====== VIDEO SECTION ====== */
         #video-section {
             padding: 100px 5%;
             background: var(--card-bg);
@@ -390,7 +375,6 @@
             width: 100%; height: 100%; border: none;
         }
 
-        /* ====== QUIZ SECTION ====== */
         #quiz-section {
             padding: 120px 5%;
             background: linear-gradient(135deg, #0F0A04 0%, #1C0E05 50%, #2A1A08 100%);
@@ -458,7 +442,6 @@
         #next-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
         .hide { display: none !important; }
 
-        /* ====== MODALS & LIGHTBOX ====== */
         .modal {
             display: none; position: fixed;
             inset: 0; z-index: 3000;
@@ -532,7 +515,6 @@
         }
         .lb-close:hover { transform: rotate(90deg) scale(1.1); color: var(--primary); }
 
-        /* ====== FOOTER ====== */
         footer {
             background: #0A0600;
             color: #C0A880;
@@ -588,7 +570,6 @@
             max-width: 1280px; margin: 0 auto;
         }
 
-        /* ====== ANIMATIONS & RESPONSIVE ====== */
         @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes scrollLine { 0%, 100% { transform: scaleY(1); opacity: 1; transform-origin: top; } 50% { transform: scaleY(0.3); opacity: 0.2; transform-origin: top; } }
@@ -876,7 +857,6 @@
 <script>
 
 
-// Local images (relative paths work both in local file preview and when hosted)
 const providedImages = [
     "images/piramidite.jpg",
     "images/kilimagaro.jpg",
@@ -954,18 +934,14 @@ const wonders = [
     }
 ];
 
-/* ====== INITIALIZE LEAFLET MAP ====== */
 let map;
 function initMap() {
-    // Center map on Africa
     map = L.map('interactive-map').setView([2.0, 20.0], 3);
 
-    // Add Esri World Imagery (Beautiful Satellite map)
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
     }).addTo(map);
 
-    // Custom map markers
     const customIcon = L.divIcon({
         className: 'custom-map-marker',
         html: `<div style="background-color: var(--primary); width: 15px; height: 15px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.8);"></div>`,
@@ -985,7 +961,6 @@ function initMap() {
     });
 }
 
-/* ====== RENDER WONDERS ====== */
 function renderWonders() {
     const container = document.getElementById('wonders-container');
     wonders.forEach(w => {
@@ -1007,10 +982,8 @@ function renderWonders() {
     });
 }
 
-/* ====== RENDER GALLERY ====== */
 function renderGallery() {
     const grid = document.getElementById('gallery-grid');
-    // Using the 10 provided images for the gallery
     providedImages.forEach((src, i) => {
         const div = document.createElement('div');
         div.className = 'g-item reveal';
@@ -1020,7 +993,6 @@ function renderGallery() {
     });
 }
 
-/* ====== LIGHTBOX ====== */
 function openLightbox(src) {
     document.getElementById('lb-img').src = src;
     document.getElementById('lightbox').style.display = 'flex';
@@ -1037,7 +1009,6 @@ document.getElementById('lightbox').onclick = (e) => {
     }
 };
 
-/* ====== MODAL FOR WONDERS ====== */
 window.openModal = function(id) {
     const wonder = wonders.find(w => w.id === id);
     document.getElementById('modal-img').src = wonder.img;
@@ -1061,7 +1032,6 @@ function closeModal() {
 document.getElementById('modal-close').onclick = closeModal;
 document.getElementById('modal').onclick = (e) => { if (e.target === e.currentTarget) closeModal(); };
 
-/* ====== THEME TOGGLE ====== */
 const themeBtn = document.getElementById('theme-toggle');
 if (localStorage.getItem('africa-theme') === 'dark') {
     document.body.classList.add('dark-mode');
@@ -1073,13 +1043,11 @@ themeBtn.onclick = () => {
     localStorage.setItem('africa-theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
 };
 
-/* ====== ANIMATED STATS ====== */
 function animateCount(id, target, suffix='', duration=2000) {
     const el = document.getElementById(id);
     let start = 0, step = target / (duration / 16);
     const timer = setInterval(() => {
         start = Math.min(start + step, target);
-        // Format with comma if >= 1000
         let displayVal = start >= 1000 ? Math.round(start).toLocaleString('bg-BG') : Math.round(start);
         el.textContent = displayVal + suffix;
         if (start >= target) clearInterval(timer);
@@ -1097,7 +1065,6 @@ const statsObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 statsObs.observe(document.querySelector('.stats-strip'));
 
-/* ====== SCROLL REVEAL ====== */
 function observeReveal() {
     const obs = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -1110,7 +1077,6 @@ function observeReveal() {
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 }
 
-/* ====== QUIZ LOGIC FIX ====== */
 const questions = [
     { q: "Коя е най-високата точка на Африка?", a: ["Нос Добра Надежда", "Планината Кения", "Килиманджаро", "Атласките планини"], correct: 2 },
     { q: "В коя страна се намират Пирамидите в Гиза?", a: ["Мароко", "Египет", "Тунис", "Либия"], correct: 1 },
@@ -1158,7 +1124,6 @@ function checkAnswer(selected, correct, btn) {
     nextBtn.classList.remove('hide');
     nextBtn.innerHTML = qIndex < questions.length - 1 ? 'Следващ Въпрос <i class="fas fa-arrow-right"></i>' : '🔄 Рестартирай теста';
     
-    // Clear old event listener by replacing the node or overwriting
     nextBtn.onclick = () => {
         if (qIndex < questions.length - 1) { 
             qIndex++; 
@@ -1172,7 +1137,6 @@ function checkAnswer(selected, correct, btn) {
     };
 }
 
-/* ====== INIT ====== */
 document.addEventListener("DOMContentLoaded", () => {
     renderWonders();
     renderGallery();
@@ -1181,7 +1145,6 @@ document.addEventListener("DOMContentLoaded", () => {
     observeReveal();
 });
 
-/* ====== NAVBAR SCROLL EFFECT ====== */
 window.addEventListener('scroll', () => {
     document.getElementById('navbar').style.boxShadow =
         window.scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.15)' : 'none';
